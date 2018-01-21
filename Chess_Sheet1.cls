@@ -25,10 +25,6 @@ Dim Piece_Color_W As Long
 Dim Piece_Color_B As Long
 Piece_Color_W = RGB(255, 255, 255) '白
 Piece_Color_B = RGB(0, 0, 0) '黒
-Dim Interior_Color_P As Long
-Dim Interior_Color_B As Long
-Interior_Color_P = RGB(244, 176, 132) '背景色_ペールオレンジ
-Interior_Color_B = RGB(198, 89, 17) '背景色_茶
 
 Dim SelectInterior_Color As Long '移動可能範囲の色
 SelectInterior_Color = RGB(155, 194, 230) '水色
@@ -47,19 +43,7 @@ End If
 If Piece_Select Then '駒の場合
     If Turn_W Then '白のターン
         If Not Piece.Value = "" Then
-            '--背景色初期化--
-            Range("B2:I9").Interior.Color = Interior_Color_P
-            For i = 3 To 9 Step 2
-                For j = 2 To 8 Step 2
-                    Cells(i, j).Interior.Color = Interior_Color_B
-                Next j
-            Next i
-            For i = 2 To 8 Step 2
-                For j = 3 To 9 Step 2
-                    Cells(i, j).Interior.Color = Interior_Color_B
-                Next j
-            Next i
-            '--背景色初期化おわり--
+            Call 背景色初期化
         End If
         If Target.Value = "歩" And Target.Font.Color = Piece_Color_W Then
             Target.Offset(-1, 0).Interior.Color = SelectInterior_Color
@@ -78,19 +62,7 @@ Else '駒ではない場合
             Range(Piece.Value).Value = ""
             Piece.Value = ""
         End If
-            '--背景色初期化--
-            Range("B2:I9").Interior.Color = Interior_Color_P
-            For i = 3 To 9 Step 2
-                For j = 2 To 8 Step 2
-                    Cells(i, j).Interior.Color = Interior_Color_B
-                Next j
-            Next i
-            For i = 2 To 8 Step 2
-                For j = 3 To 9 Step 2
-                    Cells(i, j).Interior.Color = Interior_Color_B
-                Next j
-            Next i
-            '--背景色初期化おわり--
+        Call 背景色初期化
         Piece_Select = True
         Piece.Value = ""
     End If
