@@ -9,12 +9,11 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 
-Dim Turn_W As Boolean 'Trueが白のターン
-Dim Piece_Select As Boolean 'Trueが駒を選択した状態
+Dim Turn_W As Boolean 'Trueが白のターン'
+Dim Piece_Select As Boolean 'Trueが駒を選択した状態'
 
-Turn_W = True
-'Piece_Select = False
-'---------------↑後ほどPublic化---------------------
+'Turn_W = True'
+'Piece_Select = False'
 
 Dim Turn As Range 'どっちのターンか表示するセル
 Dim Piece As Range 'どの駒を選択中か表示するセル
@@ -31,10 +30,15 @@ SelectInterior_Color = RGB(155, 194, 230) '水色
 
 Dim i, j As Integer
 
+'ターンの判別'
+If Turn.Value = "白" Then
+ Turn_W = True
+End If
+
 '駒かどうか判別
 If Turn_W And Not Target.Value = "" And Target.Font.Color = Piece_Color_W Then
  Piece_Select = True
-ElseIf Turn_B And Not Target.Value = "" And Target.Font.Color = Piece_Color_B Then
+ElseIf Not Turn_W And Not Target.Value = "" And Target.Font.Color = Piece_Color_B Then
  Piece_Select = True
 Else
  Piece_Select = False
