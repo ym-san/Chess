@@ -73,3 +73,19 @@ Range("F9").Value = "â§"
 
 End Sub
 
+
+Sub îíÇÃÉ|Å[Éì(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long, SelectInterior_Color As Long)
+
+    If target.Offset(-1, 0).Value = "" Then
+        target.Offset(-1, 0).Interior.Color = SelectInterior_Color
+    End If
+    If target.Offset(-2, 0).Value = "" Then
+        target.Offset(-2, 0).Interior.Color = SelectInterior_Color
+    End If
+    If target.Offset(-1, -1).Value <> "" And target.Offset(-1, -1).Font.Color = Piece_Color_B Then
+        target.Offset(-1, -1).Interior.Color = SelectInterior_Color
+    End If
+    If target.Offset(-1, 1).Value <> "" And target.Offset(-1, 1).Font.Color = Piece_Color_B Then
+        target.Offset(-1, 1).Interior.Color = SelectInterior_Color
+    End If
+End Sub

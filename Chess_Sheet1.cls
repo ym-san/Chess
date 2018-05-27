@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
-Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+Private Sub Worksheet_SelectionChange(ByVal target As Range)
 
 Dim Turn_W As Boolean 'Trueが白のターン'
 Dim Piece_Select As Boolean 'Trueが駒を選択した状態'
@@ -36,9 +36,9 @@ If Turn.Value = "白" Then
 End If
 
 '駒かどうか判別
-If Turn_W And Not Target.Value = "" And Target.Font.Color = Piece_Color_W Then
+If Turn_W And Not target.Value = "" And target.Font.Color = Piece_Color_W Then
  Piece_Select = True
-ElseIf Not Turn_W And Not Target.Value = "" And Target.Font.Color = Piece_Color_B Then
+ElseIf Not Turn_W And Not target.Value = "" And target.Font.Color = Piece_Color_B Then
  Piece_Select = True
 Else
  Piece_Select = False
@@ -49,10 +49,9 @@ If Piece_Select Then '駒の場合
         If Not Piece.Value = "" Then
             Call 背景色初期化
         End If
-        If Target.Value = "歩" And Target.Font.Color = Piece_Color_W Then
-            Target.Offset(-1, 0).Interior.Color = SelectInterior_Color
-            Target.Offset(-2, 0).Interior.Color = SelectInterior_Color
-            Piece.Value = Target.Address
+        If target.Value = "歩" And target.Font.Color = Piece_Color_W Then
+                Call 白のポーン(target, Piece_Color_W, Piece_Color_B, SelectInterior_Color)
+            Piece.Value = target.Address
         End If
     Else '黒のターン(のちほど)
 
@@ -60,9 +59,9 @@ If Piece_Select Then '駒の場合
     Piece_Select = False
 Else '駒ではない場合
     If Not Piece.Value = "" Then
-        If Target.Interior.Color = SelectInterior_Color Then
-            Target.Value = Range(Piece.Value)
-            Target.Font.Color = Range(Piece.Value).Font.Color
+        If target.Interior.Color = SelectInterior_Color Then
+            target.Value = Range(Piece.Value)
+            target.Font.Color = Range(Piece.Value).Font.Color
             Range(Piece.Value).Value = ""
             Piece.Value = ""
         End If
