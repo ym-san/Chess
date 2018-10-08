@@ -17,8 +17,10 @@ Dim Piece_Select As Boolean 'Trueが駒を選択した状態'
 
 Dim Turn As Range 'どっちのターンか表示するセル
 Dim Piece As Range 'どの駒を選択中か表示するセル
+Dim Board As Range 'チェス盤の起点セル（左上）
 Set Turn = Range("K2")
 Set Piece = Range("K3")
+Set Board = Range("B2")
 
 Dim Piece_Color_W As Long
 Dim Piece_Color_B As Long
@@ -28,7 +30,8 @@ Piece_Color_B = RGB(0, 0, 0) '黒
 Dim SelectInterior_Color As Long '移動可能範囲の色
 SelectInterior_Color = RGB(155, 194, 230) '水色
 
-Dim i, j As Integer
+Dim i, j As Long
+Dim blueCells() As Long
 
 'ターンの判別'
 If Turn.Value = "白" Then
@@ -45,14 +48,23 @@ Else
 End If
 
 If Piece_Select Then '駒の場合
+    If Not Piece.Value = "" Then
+        Call 背景色初期化
+    End If
     If Turn_W Then '白のターン
-        If Not Piece.Value = "" Then
-            Call 背景色初期化
-        End If
         If target.Value = "歩" And target.Font.Color = Piece_Color_W Then
-                Call 白のポーン(target, Piece_Color_W, Piece_Color_B, SelectInterior_Color)
+                blueCells() = 白のポーン(target, Piece_Color_W, Piece_Color_B, SelectInterior_Color)
             Piece.Value = target.Address
         End If
+                
+        If Not UBound(blueCells, 1) = 0 Then
+            For i = 0 To UBound(blueCells, 2)
+                If Not Application.Intersect(Cells(blueCells(0, i), blueCells(1, i)), Range(Board, Board.Offset(7, 7))) Is Nothing Then
+                    Cells(blueCells(0, i), blueCells(1, i)).Interior.Color = SelectInterior_Color
+                End If
+            Next
+        End If
+
     Else '黒のターン(のちほど)
 
     End If

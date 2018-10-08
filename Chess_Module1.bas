@@ -74,18 +74,63 @@ Range("F9").Value = "王"
 End Sub
 
 
-Sub 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long, SelectInterior_Color As Long)
-
-    If target.Offset(-1, 0).Value = "" Then
-        target.Offset(-1, 0).Interior.Color = SelectInterior_Color
+Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long, SelectInterior_Color As Long) As Long()
+    
+    Dim i As Long
+    Dim arr(), result() As Long
+    Dim tRow, tCol As Long
+    i = 0
+    tRow = target.row
+    tCcol = target.Column
+        
+    n = target.row - 1
+    m = target.Column
+    If n > 0 And m > 0 Then
+        If Cells(n, m).Value = "" Then
+            ReDim Preserve result(1, i)
+            result(0, i) = n
+            result(1, i) = m
+            i = i + 1
+        End If
     End If
-    If target.Offset(-2, 0).Value = "" Then
-        target.Offset(-2, 0).Interior.Color = SelectInterior_Color
+    
+    n = target.row - 2
+    m = target.Column
+    If n > 0 And m > 0 Then
+        If Cells(n, m).Value = "" Then
+            ReDim Preserve result(1, i)
+            result(0, i) = n
+            result(1, i) = m
+            i = i + 1
+        End If
     End If
-    If target.Offset(-1, -1).Value <> "" And target.Offset(-1, -1).Font.Color = Piece_Color_B Then
-        target.Offset(-1, -1).Interior.Color = SelectInterior_Color
+    
+    n = target.row - 1
+    m = target.Column - 1
+    If n > 0 And m > 0 Then
+        If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_B Then
+            ReDim Preserve result(1, i)
+            result(0, i) = n
+            result(1, i) = m
+            i = i + 1
+        End If
     End If
-    If target.Offset(-1, 1).Value <> "" And target.Offset(-1, 1).Font.Color = Piece_Color_B Then
-        target.Offset(-1, 1).Interior.Color = SelectInterior_Color
+    
+    n = target.row - 1
+    m = target.Column + 1
+    If n > 0 And m > 0 Then
+        If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_B Then
+            ReDim Preserve result(1, i)
+            result(0, i) = n
+            result(1, i) = m
+            i = i + 1
+        End If
     End If
-End Sub
+    
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のポーン = result()
+End Function
+ 
