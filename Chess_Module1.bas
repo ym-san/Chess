@@ -77,56 +77,41 @@ End Sub
 Function ”’‚Ìƒ|[ƒ“(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long, SelectInterior_Color As Long) As Long()
     
     Dim i As Long
-    Dim arr(), result() As Long
-    Dim tRow, tCol As Long
+    Dim result() As Long
+    Dim arr As Variant
     i = 0
-    tRow = target.row
-    tCcol = target.Column
         
-    n = target.row - 1
     m = target.Column
-    If n > 0 And m > 0 Then
-        If Cells(n, m).Value = "" Then
-            ReDim Preserve result(1, i)
-            result(0, i) = n
-            result(1, i) = m
-            i = i + 1
+    arr = Array(-1, -2)
+    For j = 0 To 1
+        n = target.row + arr(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value = "" Then
+                If j = 1 And Cells(n + 1, m).Value <> "" Then
+                Else
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+            End If
         End If
-    End If
-    
-    n = target.row - 2
-    m = target.Column
-    If n > 0 And m > 0 Then
-        If Cells(n, m).Value = "" And Cells(n + 1, m).Value = "" Then
-            ReDim Preserve result(1, i)
-            result(0, i) = n
-            result(1, i) = m
-            i = i + 1
-        End If
-    End If
+    Next
     
     n = target.row - 1
-    m = target.Column - 1
-    If n > 0 And m > 0 Then
-        If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_B Then
-            ReDim Preserve result(1, i)
-            result(0, i) = n
-            result(1, i) = m
-            i = i + 1
+    arr = Array(-1, 1)
+    For j = 0 To 1
+        m = target.Column + arr(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_B Then
+                ReDim Preserve result(1, i)
+                result(0, i) = n
+                result(1, i) = m
+                i = i + 1
+            End If
         End If
-    End If
-    
-    n = target.row - 1
-    m = target.Column + 1
-    If n > 0 And m > 0 Then
-        If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_B Then
-            ReDim Preserve result(1, i)
-            result(0, i) = n
-            result(1, i) = m
-            i = i + 1
-        End If
-    End If
-    
+    Next
+        
     If i = 0 Then
         ReDim Preserve result(0, 0)
     Else
