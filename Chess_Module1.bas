@@ -97,7 +97,7 @@ Function ”’‚Ìƒ|[ƒ“(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     n = target.row - 2
     m = target.Column
     If n > 0 And m > 0 Then
-        If Cells(n, m).Value = "" Then
+        If Cells(n, m).Value = "" And Cells(n + 1, m).Value = "" Then
             ReDim Preserve result(1, i)
             result(0, i) = n
             result(1, i) = m
