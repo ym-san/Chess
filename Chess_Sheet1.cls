@@ -53,7 +53,7 @@ If Piece_Select Then '駒の場合
     End If
     If Turn_W Then '白のターン
         If target.Value = "歩" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のポーン(target, Piece_Color_W, Piece_Color_B, SelectInterior_Color)
+                blueCells() = 白のポーン(target, Piece_Color_W, Piece_Color_B)
             Piece.Value = target.Address
         End If
                 

@@ -74,7 +74,7 @@ Range("F9").Value = "王"
 End Sub
 
 
-Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long, SelectInterior_Color As Long) As Long()
+Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
     
     Dim i As Long
     Dim result() As Long
