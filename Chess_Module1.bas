@@ -76,7 +76,7 @@ End Sub
 
 Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
     
-    Dim i As Long
+    Dim i, j As Long
     Dim result() As Long
     Dim arr As Variant
     i = 0
@@ -84,7 +84,7 @@ Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     m = target.Column
     arr = Array(-1, -2)
     For j = 0 To 1
-        n = target.row + arr(j)
+        n = target.Row + arr(j)
         If n > 0 And m > 0 Then
             If Cells(n, m).Value = "" Then
                 If j = 1 And Cells(n + 1, m).Value <> "" Then
@@ -98,7 +98,7 @@ Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
         End If
     Next
     
-    n = target.row - 1
+    n = target.Row - 1
     arr = Array(-1, 1)
     For j = 0 To 1
         m = target.Column + arr(j)
@@ -118,4 +118,401 @@ Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     End If
     白のポーン = result()
 End Function
+
+Function 白のナイト(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+    Dim arr_row() As Variant
+    Dim arr_col() As Variant
+    
+    arr_row() = Array(1, 2, 2, 1, -1, -2, -2, -1)
+    arr_col() = Array(2, 1, -1, -2, -2, -1, 1, 2)
+        
+    i = 0
+    For j = 0 To 7
+    n = target.Row + arr_row(j)
+    m = target.Column + arr_col(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                ReDim Preserve result(1, i)
+                result(0, i) = n
+                result(1, i) = m
+                i = i + 1
+            End If
+        End If
+    Next
+                
+        
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のナイト = result()
+End Function
  
+Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+            
+    Dim UpperRight, UpperLeft, BottomRight, BottomLeft As Boolean
+    UpperRight = True
+    UpperLeft = True
+    BottomRight = True
+    BottomLeft = True
+    
+    i = 0
+    
+    For j = 1 To 7
+        If UpperRight Then
+            n = target.Row + (-1 * j)
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    UpperRight = False
+                End If
+            End If
+        End If
+            
+        If UpperLeft Then
+            n = target.Row + (-1 * j)
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    UpperLeft = False
+                End If
+            End If
+        End If
+        
+        If BottomRight Then
+            n = target.Row + (1 * j)
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    BottomRight = False
+                End If
+            End If
+        End If
+    
+        If BottomLeft Then
+            n = target.Row + (1 * j)
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    BottomLeft = False
+                End If
+            End If
+        End If
+    
+    Next
+                
+    
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のビショップ = result()
+End Function
+
+Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+            
+    Dim Up, Right, Bottom, Left As Boolean
+    Up = True
+    Right = True
+    Bottom = True
+    Left = True
+    
+    i = 0
+    
+    For j = 1 To 7
+        If Up Then
+            n = target.Row + (-1 * j)
+            m = target.Column
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Up = False
+                End If
+            End If
+        End If
+            
+        If Right Then
+            n = target.Row
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Right = False
+                End If
+            End If
+        End If
+        
+        If Bottom Then
+            n = target.Row + (1 * j)
+            m = target.Column
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Bottom = False
+                End If
+            End If
+        End If
+    
+        If Left Then
+            n = target.Row
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Left = False
+                End If
+            End If
+        End If
+    
+    Next
+                
+    
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のルーク = result()
+End Function
+
+
+Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+            
+    Dim Up, Right, Bottom, Left, UpperRight, UpperLeft, BottomRight, BottomLeft As Boolean
+    Up = True
+    Right = True
+    Bottom = True
+    Left = True
+    UpperRight = True
+    UpperLeft = True
+    BottomRight = True
+    BottomLeft = True
+    
+    i = 0
+    
+    For j = 1 To 7
+        If Up Then
+            n = target.Row + (-1 * j)
+            m = target.Column
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Up = False
+                End If
+            End If
+        End If
+            
+        If Right Then
+            n = target.Row
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Right = False
+                End If
+            End If
+        End If
+        
+        If Bottom Then
+            n = target.Row + (1 * j)
+            m = target.Column
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Bottom = False
+                End If
+            End If
+        End If
+    
+        If Left Then
+            n = target.Row
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    Left = False
+                End If
+            End If
+        End If
+    
+        If UpperRight Then
+            n = target.Row + (-1 * j)
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    UpperRight = False
+                End If
+            End If
+        End If
+            
+        If UpperLeft Then
+            n = target.Row + (-1 * j)
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    UpperLeft = False
+                End If
+            End If
+        End If
+        
+        If BottomRight Then
+            n = target.Row + (1 * j)
+            m = target.Column + (1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    BottomRight = False
+                End If
+            End If
+        End If
+    
+        If BottomLeft Then
+            n = target.Row + (1 * j)
+            m = target.Column + (-1 * j)
+            If n > 0 And m > 0 Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+                If Cells(n, m).Value <> "" Then
+                    BottomLeft = False
+                End If
+            End If
+        End If
+    
+    
+    Next
+                
+    
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のクイーン = result()
+End Function
+
+Function 白のキング(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+    Dim arr_row() As Variant
+    Dim arr_col() As Variant
+    
+    arr_row() = Array(-1, -1, -1, 0, 1, 1, 1, 0)
+    arr_col() = Array(-1, 0, 1, 1, 1, 0, -1, -1)
+    i = 0
+        
+    i = 0
+    For j = 0 To 7
+    n = target.Row + arr_row(j)
+    m = target.Column + arr_col(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                ReDim Preserve result(1, i)
+                result(0, i) = n
+                result(1, i) = m
+                i = i + 1
+            End If
+        End If
+    Next
+                
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    白のキング = result()
+End Function

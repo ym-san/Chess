@@ -54,8 +54,18 @@ If Piece_Select Then '駒の場合
     If Turn_W Then '白のターン
         If target.Value = "歩" And target.Font.Color = Piece_Color_W Then
                 blueCells() = 白のポーン(target, Piece_Color_W, Piece_Color_B)
-            Piece.Value = target.Address
+        ElseIf target.Value = "騎" And target.Font.Color = Piece_Color_W Then
+                blueCells() = 白のナイト(target, Piece_Color_W, Piece_Color_B)
+        ElseIf target.Value = "僧" And target.Font.Color = Piece_Color_W Then
+                blueCells() = 白のビショップ(target, Piece_Color_W, Piece_Color_B)
+        ElseIf target.Value = "城" And target.Font.Color = Piece_Color_W Then
+                blueCells() = 白のルーク(target, Piece_Color_W, Piece_Color_B)
+        ElseIf target.Value = "女" And target.Font.Color = Piece_Color_W Then
+                blueCells() = 白のクイーン(target, Piece_Color_W, Piece_Color_B)
+        ElseIf target.Value = "王" And target.Font.Color = Piece_Color_W Then
+                blueCells() = 白のキング(target, Piece_Color_W, Piece_Color_B)
         End If
+        Piece.Value = target.Address
                 
         If Not UBound(blueCells, 1) = 0 Then
             For i = 0 To UBound(blueCells, 2)
@@ -83,3 +93,4 @@ Else '駒ではない場合
     End If
 End If
 End Sub
+
