@@ -53,17 +53,17 @@ If Piece_Select Then '駒の場合
     End If
     If Turn_W Then '白のターン
         If target.Value = "歩" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のポーン(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = 白のポーン(target, Piece_Color_B)
         ElseIf target.Value = "騎" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のナイト(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = ナイト(target, Piece_Color_B)
         ElseIf target.Value = "僧" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のビショップ(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = ビショップ(target, Piece_Color_B)
         ElseIf target.Value = "城" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のルーク(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = ルーク(target, Piece_Color_B)
         ElseIf target.Value = "女" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のクイーン(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = クイーン(target, Piece_Color_B)
         ElseIf target.Value = "王" And target.Font.Color = Piece_Color_W Then
-                blueCells() = 白のキング(target, Piece_Color_W, Piece_Color_B)
+                blueCells() = キング(target, Piece_Color_B)
         End If
         Piece.Value = target.Address
                 
@@ -75,7 +75,29 @@ If Piece_Select Then '駒の場合
             Next
         End If
 
-    Else '黒のターン(のちほど)
+    Else '黒のターン
+        If target.Value = "歩" And target.Font.Color = Piece_Color_B Then
+                blueCells() = 黒のポーン(target, Piece_Color_W)
+        ElseIf target.Value = "騎" And target.Font.Color = Piece_Color_B Then
+                blueCells() = ナイト(target, Piece_Color_W)
+        ElseIf target.Value = "僧" And target.Font.Color = Piece_Color_B Then
+                blueCells() = ビショップ(target, Piece_Color_W)
+        ElseIf target.Value = "城" And target.Font.Color = Piece_Color_B Then
+                blueCells() = ルーク(target, Piece_Color_W)
+        ElseIf target.Value = "女" And target.Font.Color = Piece_Color_B Then
+                blueCells() = クイーン(target, Piece_Color_W)
+        ElseIf target.Value = "王" And target.Font.Color = Piece_Color_B Then
+                blueCells() = キング(target, Piece_Color_W)
+        End If
+        Piece.Value = target.Address
+                
+        If Not UBound(blueCells, 1) = 0 Then
+            For i = 0 To UBound(blueCells, 2)
+                If Not Application.Intersect(Cells(blueCells(0, i), blueCells(1, i)), Range(Board, Board.Offset(7, 7))) Is Nothing Then
+                    Cells(blueCells(0, i), blueCells(1, i)).Interior.Color = SelectInterior_Color
+                End If
+            Next
+        End If
 
     End If
     Piece_Select = False
@@ -86,6 +108,11 @@ Else '駒ではない場合
             target.Font.Color = Range(Piece.Value).Font.Color
             Range(Piece.Value).Value = ""
             Piece.Value = ""
+            If Turn_W Then
+                Turn.Value = "黒"
+            Else
+                Turn.Value = "白"
+            End If
         End If
         Call 背景色初期化
         Piece_Select = True
@@ -93,4 +120,5 @@ Else '駒ではない場合
     End If
 End If
 End Sub
+
 

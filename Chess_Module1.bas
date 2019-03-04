@@ -74,7 +74,7 @@ Range("F9").Value = "王"
 End Sub
 
 
-Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function 白のポーン(ByVal target As Range, Piece_Color_B As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -119,7 +119,52 @@ Function 白のポーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     白のポーン = result()
 End Function
 
-Function 白のナイト(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function 黒のポーン(ByVal target As Range, Piece_Color_W As Long) As Long()
+    
+    Dim i, j As Long
+    Dim result() As Long
+    Dim arr As Variant
+    i = 0
+        
+    m = target.Column
+    arr = Array(1, 2)
+    For j = 0 To 1
+        n = target.Row + arr(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value = "" Then
+                If j = 1 And Cells(n + 1, m).Value <> "" Then
+                Else
+                    ReDim Preserve result(1, i)
+                    result(0, i) = n
+                    result(1, i) = m
+                    i = i + 1
+                End If
+            End If
+        End If
+    Next
+    
+    n = target.Row + 1
+    arr = Array(-1, 1)
+    For j = 0 To 1
+        m = target.Column + arr(j)
+        If n > 0 And m > 0 Then
+            If Cells(n, m).Value <> "" And Cells(n, m).Font.Color = Piece_Color_W Then
+                ReDim Preserve result(1, i)
+                result(0, i) = n
+                result(1, i) = m
+                i = i + 1
+            End If
+        End If
+    Next
+        
+    If i = 0 Then
+        ReDim Preserve result(0, 0)
+    Else
+    End If
+    黒のポーン = result()
+End Function
+
+Function ナイト(ByVal target As Range, piece_enemy As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -134,7 +179,7 @@ Function 白のナイト(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     n = target.Row + arr_row(j)
     m = target.Column + arr_col(j)
         If n > 0 And m > 0 Then
-            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                 ReDim Preserve result(1, i)
                 result(0, i) = n
                 result(1, i) = m
@@ -148,10 +193,10 @@ Function 白のナイト(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
         ReDim Preserve result(0, 0)
     Else
     End If
-    白のナイト = result()
+    ナイト = result()
 End Function
  
-Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function ビショップ(ByVal target As Range, piece_enemy As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -169,7 +214,7 @@ Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Colo
             n = target.Row + (-1 * j)
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -185,7 +230,7 @@ Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Colo
             n = target.Row + (-1 * j)
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -201,7 +246,7 @@ Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Colo
             n = target.Row + (1 * j)
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -217,7 +262,7 @@ Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Colo
             n = target.Row + (1 * j)
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -236,10 +281,10 @@ Function 白のビショップ(ByVal target As Range, Piece_Color_W As Long, Piece_Colo
         ReDim Preserve result(0, 0)
     Else
     End If
-    白のビショップ = result()
+    ビショップ = result()
 End Function
 
-Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function ルーク(ByVal target As Range, piece_enemy As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -257,7 +302,7 @@ Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
             n = target.Row + (-1 * j)
             m = target.Column
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -273,7 +318,7 @@ Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
             n = target.Row
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -289,7 +334,7 @@ Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
             n = target.Row + (1 * j)
             m = target.Column
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -305,7 +350,7 @@ Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
             n = target.Row
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -324,11 +369,11 @@ Function 白のルーク(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
         ReDim Preserve result(0, 0)
     Else
     End If
-    白のルーク = result()
+    ルーク = result()
 End Function
 
 
-Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function クイーン(ByVal target As Range, piece_enemy As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -350,7 +395,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (-1 * j)
             m = target.Column
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -366,7 +411,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -382,7 +427,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (1 * j)
             m = target.Column
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -398,7 +443,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -414,7 +459,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (-1 * j)
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -430,7 +475,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (-1 * j)
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -446,7 +491,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (1 * j)
             m = target.Column + (1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -462,7 +507,7 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
             n = target.Row + (1 * j)
             m = target.Column + (-1 * j)
             If n > 0 And m > 0 Then
-                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+                If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                     ReDim Preserve result(1, i)
                     result(0, i) = n
                     result(1, i) = m
@@ -482,10 +527,10 @@ Function 白のクイーン(ByVal target As Range, Piece_Color_W As Long, Piece_Color_
         ReDim Preserve result(0, 0)
     Else
     End If
-    白のクイーン = result()
+    クイーン = result()
 End Function
 
-Function 白のキング(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B As Long) As Long()
+Function キング(ByVal target As Range, piece_enemy As Long) As Long()
     
     Dim i, j As Long
     Dim result() As Long
@@ -501,7 +546,7 @@ Function 白のキング(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
     n = target.Row + arr_row(j)
     m = target.Column + arr_col(j)
         If n > 0 And m > 0 Then
-            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = Piece_Color_B Then
+            If Cells(n, m).Value = "" Or Cells(n, m).Font.Color = piece_enemy Then
                 ReDim Preserve result(1, i)
                 result(0, i) = n
                 result(1, i) = m
@@ -514,5 +559,5 @@ Function 白のキング(ByVal target As Range, Piece_Color_W As Long, Piece_Color_B 
         ReDim Preserve result(0, 0)
     Else
     End If
-    白のキング = result()
+    キング = result()
 End Function
